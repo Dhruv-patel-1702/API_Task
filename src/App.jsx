@@ -5,6 +5,7 @@ import Home from './Pages/Home'
 import TokenWithUserDetails from './Pages/TokenWithUserDetails'
 import UpdateWithoutToken from './Pages/UpdateWithoutToken'
 import TokenWithUpdate from './Pages/TokenWithUpdate'
+import Cards from './Pages/cards'
 
 function App() {
   return (
@@ -16,8 +17,7 @@ function App() {
         <Route path="/token-with-user-details" element={<TokenWithUserDetails />} />
         <Route path="/update-without-token" element={<UpdateWithoutToken />} />
         <Route path="/token-with-update" element={<TokenWithUpdate />} />
-        
-        {/* Add other routes as needed */}
+        <Route path="/cards" element={<Cards />} />
       </Routes>
     </Router>
   );

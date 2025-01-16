@@ -39,7 +39,10 @@ const Home = () => {
 
     fetchUserDetails();
   }, []);
-  
+
+  const handleNavigateToCards = () => {
+    navigate("/cards");
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -58,7 +61,42 @@ const Home = () => {
       setError("");
     }
   };
-  
+
+  const handleDeleteProfile = async () => {
+    // Show confirmation dialog
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+
+    if (!confirmDelete) return;
+
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.delete(
+        `https://interview-task-bmcl.onrender.com/api/user/delete?userId=${userID}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        alert("Account deleted successfully!");
+        // Clear all local storage
+        localStorage.clear();
+        // Navigate to signup page
+        navigate("/", { replace: true });
+      } else {
+        setError("Failed to delete account");
+      }
+    } catch (error) {
+      console.error("Delete account error:", error);
+      setError(error.response?.data?.message || "Failed to delete account");
+    }
+  };
 
   const handlePhotoUpdate = async () => {
     if (!file) {
@@ -268,6 +306,18 @@ const Home = () => {
                 className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600"
               >
                 Logout
+              </button>
+              <button
+                onClick={handleDeleteProfile}
+                className="w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600"
+              >
+                Delete Profile
+              </button>
+              <button
+                onClick={handleNavigateToCards}
+                className="w-full bg-indigo-500 text-white p-2 rounded hover:bg-indigo-600"
+              >
+                Upload Multiple Photos
               </button>
             </div>
           </div>
